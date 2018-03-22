@@ -1,0 +1,41 @@
+<div class="gallery-v1">
+   {% set i = 0 %} 
+   {% set k = 0 %}
+   {% for row in rows %}
+      {% set i = i + 1 %}
+         {% if i < 6 %}
+            {% if i == 1 %}
+               <div class="clearfix">
+            {% endif %}   
+
+            {% if i == 1 %}
+               <div class="gallery-large col-sm-6 col-xs-12 no-padding">
+                  <div class="item content">{{ row.content }}</div>
+               </div>
+            {% endif %}
+            
+            {% if i == 2 or i == 3 or i == 4 or i == 5 %}
+               <div class="col-sm-3 col-xs-12 no-padding">
+                  <div class="item content gallery-small-item">{{ row.content }}</div>
+               </div>   
+            {% endif %}
+           
+            {% if i == 5 %}
+               </div>
+            {% endif %}   
+
+         {% else %}
+            {% set k = k + 1 %}
+            {% if k % 4 == 1 %}
+               <div class="clearfix">
+            {% endif %}   
+               <div class="item content col-sm-3 col-xs-12 no-padding">{{ row.content }}</div>
+            {% if k % 4 == 0 or i == rows|length %}
+               </div>
+            {% endif %}   
+
+
+         {% endif %}   
+   {% endfor %}   
+</div>
+

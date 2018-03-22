@@ -1,0 +1,16 @@
+<div class="item" data-thumbs="{{ fields.field_event_start.content|striptags|trim }}">
+   <article class="event-block v2">      
+      <div class="event-content row">
+         <div class="content col-md-3 col-sm-5 col-xs-12">
+            <div class="image">{{ fields.field_event_image.content }}</div>
+         </div> 
+         <div class="content col-md-9 col-sm-7 col-xs-12">
+            <div class="event-info">
+               <div class="title">{{ fields.title.content }}</div>
+               <div class="address"><i class="fa fa-map-marker"></i>{{ fields.field_event_address.content }}</div>
+               <div class="body">{{ fields.body.content }}</div>
+            </div>
+         </div>   
+      </div>
+   </article>
+</div>

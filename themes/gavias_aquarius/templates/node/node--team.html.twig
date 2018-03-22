@@ -1,0 +1,107 @@
+{%
+  set classes = [
+    'node',
+    'node-detail',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+  ]
+%}
+
+<!-- Start Display article for teaser page -->
+{% if teaser == true %} 
+  <article{{ attributes.addClass(classes) }}>
+    <div class="post-block">
+      
+      <div class="post-thumbnail post-{{ post_format }}">
+        {% if post_format == 'video' or post_format == 'audio' and gva_iframe %}
+          {{ gva_iframe|raw }}
+        {% elseif post_format == 'gallery' and content.field_post_gallery %}
+          {{ content.field_post_gallery }}
+        {% else %}
+          {{ content.field_image }}
+        {% endif %}  
+      </div>
+
+      <div class="post-content">
+        
+        {{ title_prefix }}
+           <h3{{ title_attributes.addClass('post-title') }}><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+        {{ title_suffix }}         
+        <div class="post-meta">
+          <span class="post-categories">{{ content.field_post_category }}</span> /
+          <span class="post-created"> {{date }} </span> /
+          <span class="post-comment"> 
+            <a href="{{url}}/#comments">{{ comment_count }} Comments</a>
+          </span>
+        </div>
+        <div class="post-description">
+          {{ content.body }}
+        </div>
+      </div>
+
+    </div>
+  </article>  
+
+<!-- End Display article for teaser page -->
+{% else %}
+<!-- Start Display article for detail page -->
+
+<article{{ attributes.addClass(classes) }}>
+  <div class="team-block-full">
+    <div class="row">
+      <div class="col-sm-3 col-xs-12">
+        <div class="post-thumbnail text-center">
+          {{ content.field_team_image }} 
+        </div>
+        <div class="social text-center">
+          <a href="{{node.field_team_facebook.value}}"><i class="fa fa-facebook"></i></a>
+          <a href="{{node.field_team_google.value}}"><i class="fa fa-google-plus"></i></a>
+          <a href="{{node.field_team_linkedin.value}}"><i class="fa fa-linkedin"></i></a>
+          <a href="{{node.field_team_twitter.value}}"><i class="fa fa-twitter"></i></a>
+        </div>
+      </div>  
+
+      <div class="col-sm-9 col-xs-12">
+        <div class="post-content">
+          {{ title_prefix }}
+             <h1{{ title_attributes.addClass('post-title') }}>{{ content.field_team_name }}</h1>
+          {{ title_suffix }}       
+          <div class="job margin-bottom-20"><strong>{{content.field_team_position}}</strong></div>
+          
+          {% if display_submitted %}
+            <div class="node__meta hidden">
+              {{ author_picture }}
+              <span{{ author_attributes }}>
+                {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+              </span>
+              {{ metadata }}
+            </div>
+          {% endif %}
+
+          <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+            {{ content|without('field_team_image', 'field_team_name', 'field_team_position','field_team_facebook', 'field_team_google', 'field_team_linkedin', 'field_team_twitter', 'comment') }}
+          </div>
+
+          {% if content.comment %}
+            <div id="node-single-comment">
+              {{ content.comment }}
+            </div>
+          {% endif %}  
+
+          <div class="course-of-teacher clearfix">
+            <div class="title-course">{{"Course"|t}}</div>
+            {{course_teacher|raw}}
+          </div>
+
+        </div>
+      </div> 
+  </div>
+
+</article>
+
+<!-- End Display article for detail page -->
+{% endif %}

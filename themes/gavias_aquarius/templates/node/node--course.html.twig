@@ -1,0 +1,120 @@
+{%
+  set classes = [
+    'node',
+    'node-detail',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+  ]
+%}
+
+<!-- Start Display course for teaser page -->
+{% if teaser == true %} 
+  <article{{ attributes.addClass(classes) }}>
+    <div class="course-block">
+      <div class="course-thumbnail">
+        {{ content.field_course_image }}
+      </div>
+      <div class="course-content">
+        {{ title_prefix }}
+           <h3{{ title_attributes.addClass('course-title') }}><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+        {{ title_suffix }}         
+        <div class="course-meta">
+          <div class="course-teacher"><i class="fa fa-user"></i>{{ content.field_course_teacher }}</div> 
+          <div class="course-student"><i class="fa fa-users"></i> {{ content.field_course_student }} </div> 
+          <div class="course-comment"><i class="fa fa-comments"></i><a href="{{url}}/#comments">{{ comment_count }} </a></div>
+        </div>
+        <div class="description">{{ content.body }}</div>
+        <div class="course-price">{{ content.field_course_price }}</div>
+
+      </div>
+    </div>
+  </article>  
+<!-- End Display course for teaser page -->
+{% else %}
+<!-- Start Display course for detail page -->
+
+<article{{ attributes.addClass(classes) }}>
+  <div class="row  course-single">
+    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12"> 
+      <div class="course-block">
+        
+        {{ title_prefix }}
+          <h1{{ title_attributes.addClass('post-title') }}>{{ label }}</h1>
+        {{ title_suffix }}   
+
+        <div class="course-info clearfix">
+          <div class="item">
+              <span class="label">{{ 'University'|t }} </span>
+              <span class="val">{{ content.field_course_teacher }} </span>
+          </div>
+          <div class="item">
+              <span class="label">{{ 'Research Category'|t }} </span>
+              <span class="val">{{ content.field_course_category }} </span>
+          </div>
+          <!-- <div class="item">
+              <span class="label">{{ 'Duration'|t }} </span>
+              <span class="val">{{ content.field_course_duration }} </span>
+          </div> -->
+        </div>
+
+        <div class="post-thumbnail">
+          {{ content.field_course_image }}
+        </div>
+
+        <div class="post-content">
+          <div class="body">
+            <div class="title">{{ 'Description'|t }}</div>
+          </div>
+          
+          <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+            {{ content|without('field_course_image','field_course_category','field_course_duration','field_course_student','field_course_level','field_course_teacher','field_course_price','field_lesson','comment') }}
+          </div>
+          <div class="lessons">
+            <div class="title">{{ 'CURRICULUM'|t }}</div>
+            {{ lesson|raw }}
+          </div>
+          <div id="node-single-comment">
+            {{ content.comment }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12"> 
+      
+      <div class="course-info-left">
+        <div class="course-price">{{ content.field_course_price }}</div>
+        <div class="items">
+          {% if content.field_course_start %}
+            <div class="item"><span class="lab"><i class="fa fa-calendar"></i>{{'Start'|t}}</span><span class="val">{{ content.field_course_start }}</span></div>
+          {% endif %}
+          {% if content.field_course_duration %}
+          <div class="item"><span class="lab"><i class="fa fa-clock-o"></i>{{'Duration'|t}}</span><span class="val">{{ content.field_course_duration }}</span></div>
+          {% endif %}
+          {% if count_lectures %}
+          <div class="item"><span class="lab"><i class="fa fa-file"></i>{{'Lectures'|t}}</span><span class="val">{{ count_lectures }}</span></div>
+          {% endif %}
+          {% if content.field_course_student %}
+          <div class="item"><span class="lab"><i class="fa fa-users"></i>{{'Student'|t}}</span><span class="val">{{content.field_course_student}}</span></div>
+          {% endif %}
+          {% if content.field_course_level %}
+          <div class="item"><span class="lab"><i class="fa fa-level-up"></i>{{'Level'|t}}</span><span class="val">{{content.field_course_level}}</span></div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="course-left-region">
+        {{ course_left }}
+      </div>
+
+    </div>
+  </div>    
+
+</article>
+
+<!-- End Display article for detail page -->
+{% endif %}
